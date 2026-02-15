@@ -148,6 +148,29 @@ public_users.get('/title/:title',function (req, res) {
   }
 });
 
+// Get book details based on Title using Promise callbacks
+public_users.get('/books/promise/title/:title', function (req, res) {
+  const title = req.params.title;
+  axios.get(`http://localhost:5000/title/${title}`)
+    .then(response => {
+      res.status(200).send(response.data);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Error fetching books by title", error: error.message });
+    });
+});
+
+// Get book details based on Title using async-await
+public_users.get('/books/async/title/:title', async function (req, res) {
+  const title = req.params.title;
+  try {
+    const response = await axios.get(`http://localhost:5000/title/${title}`);
+    res.status(200).send(response.data);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching books by title", error: error.message });
+  }
+});
+
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
